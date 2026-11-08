@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIBIR 2.0 - Curso Introductorio a los Bienes Raíces 2.0</title>
+    <style>
+        :root {
+            --primary: #1a5c2a;
+            --primary-dark: #0e3d1a;
+            --primary-light: #2d8a45;
+            --accent: #f4a261;
+            --bg: #fafafa;
+            --text: #222;
+            --text-light: #555;
+            --border: #ddd;
+            --white: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            max-width: 220px;
+            height: auto;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header h2 {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 1em;
+            opacity: 0.85;
+            font-style: italic;
+        }
+
+        /* NAV */
+        nav {
+            background: var(--primary-dark);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        nav ul li a {
+            display: block;
+            color: var(--white);
+            text-decoration: none;
+            padding: 14px 18px;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: background 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav ul li a:hover {
+            background: var(--primary);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        /* SECTIONS */
+        section {
+            background: var(--white);
+            margin: 25px 0;
+            padding: 35px 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            border-left: 5px solid var(--primary);
+        }
+
+        section h2 {
+            color: var(--primary-dark);
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        section h3 {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+        }
+
+        section h4 {
+            color: var(--primary-light);
+            font-size: 1.05em;
+            margin: 15px 0 8px 0;
+        }
+
+        section p {
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+
+        table thead {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        table tbody tr:hover {
+            background: #e8f5e9;
+        }
+
+        /* LISTS */
+        ul, ol {
+            margin: 10px 0 15px 25px;
+            color: var(--text-light);
+        }
+
+        ul li, ol li {
+            margin-bottom: 6px;
+        }
+
+        /* MODULE CARDS */
+        .module-card {
+            background: var(--white);
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            overflow: hidden;
+            border-left: 5px solid var(--primary);
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--white);
+            padding: 20px 30px;
+        }
+
+        .module-header h2 {
+            color: var(--white);
+            border: none;
+            margin: 0;
+            padding: 0;
+            font-size: 1.4em;
+        }
+
+        .module-header .module-purpose {
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .module-body {
+            padding: 25px 30px;
+        }
+
+        .module-body h3 {
+            color: var(--primary-dark);
+            font-size: 1.1em;
+            margin: 18px 0 8px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .module-body ul {
+            margin-left: 20px;
+        }
+
+        .module-body ul li {
+            margin-bottom: 4px;
+            color: var(--text-light);
+        }
+
+        /* HIGHLIGHT BOX */
+        .highlight-box {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            border: 1px solid var(--primary-light);
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            opacity: 0.85;
+            font-size: 0.9em;
+        }
+
+        footer .footer-logo {
+            max-width: 120px;
+            margin-bottom: 15px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            header h2 {
+                font-size: 1em;
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li a {
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .module-header, .module-body {
+                padding: 15px 20px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            table th, table td {
+                padding: 8px 10px;
+            }
+        }
+
+        /* PRINT */
+        @media print {
+            nav { display: none; }
+            section { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+            .module-card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+            header { background: var(--primary) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo-container">
+            <img src="logo-cia.png" alt="Cámara Inmobiliaria de Anzoátegui">
+        </div>
+        <h1>CIBIR 2.0</h1>
+        <h2>Curso Introductorio a los Bienes Raíces 2.0</h2>
+        <p class="subtitle">Cámara Inmobiliaria de Anzoátegui</p>
+    </header>
+
+    <!-- NAV -->
+    <nav>
+        <ul>
+            <li><a href="#identificacion">Identificación</a></li>
+            <li><a href="#justificacion">Justificación</a></li>
+            <li><a href="#objetivos">Objetivos</a></li>
+            <li><a href="#competencias">Competencias</a></li>
+            <li><a href="#metodologia">Metodología</a></li>
+            <li><a href="#evaluacion">Evaluación</a></li>
+            <li><a href="#modulos">Módulos</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <!-- IDENTIFICACIÓN -->
+        <section id="identificacion">
+            <h2>Identificación del Programa</h2>
+            <table>
+                <tbody>
+                    <tr><th style="width:30%;">Campo</th><th>Detalle</th></tr>
+                    <tr><td>Nombre del programa</td><td>CIBIR 2.0 – Curso Introductorio a los Bienes Raíces 2.0</td></tr>
+                    <tr><td>Naturaleza</td><td>Curso de formación profesional continua</td></tr>
+                    <tr><td>Nivel</td><td>Introductorio / Fundamentación</td></tr>
+                    <tr><td>Modalidad</td><td>Presencial, híbrida o virtual</td></tr>
+                    <tr><td>Duración sugerida</td><td>80 – 120 horas académicas</td></tr>
+                    <tr><td>Público objetivo</td><td>Profesionales universitarios, estudiantes de últimos semestres, emprendedores y personas interesadas en incorporarse al sector inmobiliario</td></tr>
+                    <tr><td>Requisito previo</td><td>Título universitario o estar cursando los últimos semestres de una carrera afín</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- JUSTIFICACIÓN -->
+        <section id="justificacion">
+            <h2>Justificación Académica</h2>
+            <p>El sector inmobiliario venezolano y latinoamericano atraviesa una transformación estructural impulsada por la digitalización, la internacionalización del capital, la exigencia de criterios ESG, la tokenización de activos y un marco regulatorio cada vez más riguroso en materia de prevención de ilícitos financieros.</p>
+            <p>El <strong>CIBIR 2.0</strong> responde a esta realidad actualizando el programa introductorio tradicional para formar profesionales capaces de operar en un entorno donde coexisten la intermediación clásica con las plataformas PropTech, la valoración tradicional con el análisis basado en Big Data, y la ética gremial con los estándares internacionales de cumplimiento (GAFI/FATF, KYC, EDD, beneficiario final).</p>
+            <p>La <strong>Cámara Inmobiliaria de Anzoátegui</strong> incorpora esta versión actualizada como puente entre la formación académica de grado y la certificación profesional especializada en bienes raíces, elevando el estándar de competencia de sus agremiados y nuevos profesionales del sector.</p>
+        </section>
+
+        <!-- OBJETIVOS -->
+        <section id="objetivos">
+            <h2>Objetivo General</h2>
+            <p>Formar profesionales con fundamentos sólidos en el negocio inmobiliario, integrando conocimientos sobre clasificación de activos, dinámica del mercado, inversión contemporánea, marco jurídico-fiscal, valoración, sostenibilidad, comercialización, marca personal, ética profesional y cumplimiento normativo nacional e internacional.</p>
+
+            <h3>Objetivos Específicos</h3>
+            <ol>
+                <li>Conceptualizar los bienes raíces y clasificar los activos inmobiliarios según su naturaleza, uso y finalidad económica.</li>
+                <li>Analizar las dinámicas del mercado inmobiliario actual y los modelos de inversión tradicionales y disruptivos.</li>
+                <li>Aplicar herramientas tecnológicas (PropTech, Big Data, VR/AR, Blockchain) al análisis, comercialización y gestión de activos.</li>
+                <li>Identificar los elementos jurídicos, fiscales y de valoración indispensables para operar con seguridad y rigor técnico.</li>
+                <li>Incorporar los criterios ESG, de sostenibilidad y compliance como ejes transversales de la gestión inmobiliaria moderna.</li>
+                <li>Desarrollar competencias comerciales y de marca personal como diferenciador competitivo.</li>
+                <li>Actuar bajo principios éticos, de veracidad y cumplimiento internacional, incluyendo la prevención de lavado de dinero y financiamiento al terrorismo.</li>
+            </ol>
+        </section>
+
+        <!-- COMPETENCIAS -->
+        <section id="competencias">
+            <h2>Competencias de Egreso</h2>
+            <p>Al finalizar el programa, el participante será capaz de:</p>
+            <ul>
+                <li>Clasificar activos inmobiliarios y reconocer su potencial económico.</li>
+                <li>Interpretar las dinámicas del mercado y evaluar oportunidades de inversión.</li>
+                <li>Utilizar herramientas tecnológicas aplicadas al sector inmobiliario.</li>
+                <li>Identificar los aspectos jurídicos, fiscales y de valoración relevantes en una operación.</li>
+                <li>Aplicar criterios ESG y de compliance en la gestión de activos.</li>
+                <li>Ejecutar procesos de comercialización con enfoque consultivo y digital.</li>
+                <li>Construir una marca personal sólida y coherente.</li>
+                <li>Actuar con ética, transparencia y bajo estándares internacionales de cumplimiento.</li>
+            </ul>
+        </section>
+
+        <!-- METODOLOGÍA -->
+        <section id="metodologia">
+            <h2>Metodología</h2>
+            <ul>
+                <li>Clases teórico-prácticas con casos reales.</li>
+                <li>Análisis de mercado con datos actualizados.</li>
+                <li>Simulaciones de negociación y cierre.</li>
+                <li>Uso de plataformas PropTech y CRM inmobiliario.</li>
+                <li>Talleres de valoración, fiscalidad y due diligence.</li>
+                <li>Estudios de caso sobre ESG, compliance y prevención de lavado de dinero.</li>
+                <li>Evaluaciones continuas, parciales y proyecto integrador final.</li>
+            </ul>
+        </section>
+
+        <!-- EVALUACIÓN -->
+        <section id="evaluacion">
+            <h2>Sistema de Evaluación</h2>
+            <table>
+                <thead>
+                    <tr><th>Componente</th><th>Peso</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Participación y actividades por módulo</td><td>20%</td></tr>
+                    <tr><td>Evaluaciones parciales</td><td>30%</td></tr>
+                    <tr><td>Caso práctico integrador</td><td>30%</td></tr>
+                    <tr><td>Proyecto final de aplicación</td><td>20%</td></tr>
+                </tbody>
+            </table>
+            <div class="highlight-box">
+                <h4>Aprobación mínima: 70%</h4>
+            </div>
+        </section>
+
+        <!-- MÓDULOS -->
+        <div id="modulos">
+
+            <!-- MÓDULO I -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>Módulo I: Fundamentos y Clasificación de Activos Inmobiliarios</h2>
+                    <p class="module-purpose">Establecer las bases conceptuales del negocio inmobiliario, diferenciando los bienes raíces de otros tipos de bienes y clasificando los activos según su naturaleza, uso, representación jurídica y potencial económico.</p>
+                </div>
+                <div class="module-body">
+                    <h3>1.1 Conceptos básicos de bienes raíces</h3>
+                    <ul>
+                        <li>Definición de bienes raíces y bienes arraigados a la tierra.</li>
+                        <li>Diferencia entre bienes muebles e inmuebles.</li>
+                        <li>Concepto de propiedad, posesión, tenencia y dominio.</li>
+                        <li>El inmueble como activo físico, jurídico y económico.</li>
+                        <li>Importancia de los bienes raíces en la economía, la inversión y el patrimonio familiar o empresarial.</li>
+                    </ul>
+
+                    <h3>1.2 Clasificación de los bienes</h3>
+                    <ul>
+                        <li>Bienes tangibles: terrenos, casas, apartamentos, locales, oficinas, galpones y edificaciones.</li>
+                        <li>Bienes intangibles: derechos, marcas, know-how, contratos, concesiones y activos asociados al negocio inmobiliario.</li>
+                        <li>Bienes por naturaleza: suelo, terrenos, árboles, plantaciones y elementos naturales adheridos a la tierra.</li>
+                        <li>Bienes por incorporación: maquinaria fija, instalaciones, mejoras permanentes y elementos integrados al inmueble.</li>
+                        <li>Bienes por analogía o relación jurídica: hipotecas, servidumbres, concesiones, derechos reales y garantías.</li>
+                        <li>Bienes por representación: documentos de propiedad, títulos, registros y certificados.</li>
+                    </ul>
+
+                    <h3>1.3 Clasificación de activos inmobiliarios por uso</h3>
+                    <ul>
+                        <li>Activos residenciales.</li>
+                        <li>Activos comerciales.</li>
+                        <li>Oficinas.</li>
+                        <li>Activos industriales.</li>
+                        <li>Activos logísticos.</li>
+                        <li>Terrenos urbanos y suburbanos.</li>
+                        <li>Parcelas rurales o de desarrollo.</li>
+                        <li>Activos turísticos y hoteleros.</li>
+                        <li>Activos de uso mixto.</li>
+                        <li>Activos especiales: clínicas, colegios, centros deportivos, estacionamientos, self-storage y modelos emergentes.</li>
+                    </ul>
+
+                    <h3>1.4 Clasificación según finalidad económica</h3>
+                    <ul>
+                        <li>Activos para habitación o uso propio.</li>
+                        <li>Activos para renta.</li>
+                        <li>Activos para apreciación de capital.</li>
+                        <li>Activos para desarrollo o promoción inmobiliaria.</li>
+                        <li>Activos para remodelación y reventa (flipping).</li>
+                        <li>Activos para explotación comercial.</li>
+                        <li>Activos institucionales o de inversión colectiva.</li>
+                    </ul>
+
+                    <h3>1.5 Documentación básica del inmueble</h3>
+                    <ul>
+                        <li>Documento de propiedad.</li>
+                        <li>Registro inmobiliario.</li>
+                        <li>Identificación catastral.</li>
+                        <li>Linderos, medidas y ubicación.</li>
+                        <li>Gravámenes, hipotecas, servidumbres o limitaciones.</li>
+                        <li>Importancia de la verificación documental antes de ofrecer, comprar, vender o arrendar un inmueble.</li>
+                    </ul>
+
+                    <h3>1.6 Ciclo de vida del activo inmobiliario</h3>
+                    <ul>
+                        <li>Adquisición.</li>
+                        <li>Desarrollo o mejora.</li>
+                        <li>Comercialización.</li>
+                        <li>Operación o alquiler.</li>
+                        <li>Mantenimiento.</li>
+                        <li>Reposicionamiento.</li>
+                        <li>Venta o desinversión.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MÓDULO II -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>Módulo II: Dinámicas del Mercado e Inversión Moderna</h2>
+                    <p class="module-purpose">Comprender el funcionamiento del mercado inmobiliario actual, sus modelos de negocio tradicionales y las nuevas formas de inversión, comercialización y análisis apoyadas en tecnología.</p>
+                </div>
+                <div class="module-body">
+                    <h3>2.1 El mercado inmobiliario</h3>
+                    <ul>
+                        <li>Concepto de mercado inmobiliario.</li>
+                        <li>Oferta y demanda de inmuebles.</li>
+                        <li>Mercado primario (venta directa del constructor) y mercado secundario.</li>
+                        <li>Mercado de venta y mercado de alquiler.</li>
+                        <li>Ciclos inmobiliarios: expansión, sobreoferta, contracción y recuperación.</li>
+                        <li>Factores que influyen en los precios: ubicación, accesibilidad, servicios, seguridad, desarrollo urbano, tasas de interés, empleo, migración y percepción de valor.</li>
+                    </ul>
+
+                    <h3>2.2 Actores del negocio inmobiliario</h3>
+                    <ul>
+                        <li>Propietarios, compradores, arrendadores y arrendatarios.</li>
+                        <li>Constructores, desarrolladores y promotores inmobiliarios.</li>
+                        <li>Corredores y agentes.</li>
+                        <li>Tasadores, abogados, ingenieros y arquitectos.</li>
+                        <li>Entidades financieras e inversionistas.</li>
+                        <li>Plataformas tecnológicas y ecosistema PropTech.</li>
+                    </ul>
+
+                    <h3>2.3 Modelos de negocio convencionales</h3>
+                    <ul>
+                        <li>Intermediación inmobiliaria.</li>
+                        <li>Captación de inmuebles.</li>
+                        <li>Venta de propiedades y alquiler de inmuebles.</li>
+                        <li>Administración de propiedades.</li>
+                        <li>Asesoría al comprador y al inversionista.</li>
+                        <li>Comercialización de proyectos nuevos.</li>
+                        <li>Venta primaria: del constructor o desarrollador al primer comprador.</li>
+                    </ul>
+
+                    <h3>2.4 Estrategias contemporáneas de inversión</h3>
+                    <ul>
+                        <li>Inversión para plusvalía y para renta.</li>
+                        <li>Rentabilidad por alquiler y flujo de caja inmobiliario.</li>
+                        <li>Compra, remodelación y venta: flipping inmobiliario.</li>
+                        <li>Inversión en preventa y en activos subvalorados.</li>
+                        <li>Inversión en renta corta (short-term rental).</li>
+                        <li>Inversión colectiva y crowdfunding inmobiliario.</li>
+                        <li>Modelos de participación fraccionada.</li>
+                    </ul>
+
+                    <h3>2.5 Indicadores básicos para evaluar inversiones</h3>
+                    <ul>
+                        <li>Precio de compra y valor de mercado.</li>
+                        <li>Costos de adquisición y remodelación.</li>
+                        <li>Gastos operativos e ingreso por alquiler.</li>
+                        <li>Vacancia, rentabilidad bruta y rentabilidad neta.</li>
+                        <li>Retorno sobre la inversión (ROI).</li>
+                        <li>Riesgo y horizonte de inversión.</li>
+                    </ul>
+
+                    <h3>2.6 PropTech y digitalización del sector</h3>
+                    <ul>
+                        <li>Definición y alcance del ecosistema PropTech.</li>
+                        <li>Plataformas inmobiliarias y CRM inmobiliario.</li>
+                        <li>Automatización de procesos.</li>
+                        <li>Firma y gestión digital de documentos.</li>
+                        <li>Herramientas de análisis de mercado.</li>
+                        <li>Inteligencia artificial aplicada al negocio inmobiliario.</li>
+                    </ul>
+
+                    <h3>2.7 Big Data inmobiliario</h3>
+                    <ul>
+                        <li>Uso de datos para estimar precios.</li>
+                        <li>Análisis de comparables y mapas de calor.</li>
+                        <li>Tendencias de demanda y segmentación de clientes.</li>
+                        <li>Predicción de zonas con potencial de crecimiento.</li>
+                        <li>Toma de decisiones basada en datos.</li>
+                    </ul>
+
+                    <h3>2.8 Realidad virtual y realidad aumentada</h3>
+                    <ul>
+                        <li>Recorridos virtuales y tours 360°.</li>
+                        <li>Visualización de proyectos en preventa.</li>
+                        <li>Staging virtual.</li>
+                        <li>Presentaciones inmersivas.</li>
+                        <li>Uso de realidad aumentada para mostrar acabados, distribución o remodelaciones.</li>
+                    </ul>
+
+                    <h3>2.9 Blockchain y transacciones inmobiliarias</h3>
+                    <ul>
+                        <li>Concepto básico de Blockchain.</li>
+                        <li>Trazabilidad y seguridad de la información.</li>
+                        <li>Smart contracts.</li>
+                        <li>Tokenización de activos inmobiliarios.</li>
+                        <li>Propiedad fraccionada digital.</li>
+                        <li>Aplicaciones potenciales en registro, inversión y transparencia.</li>
+                        <li>Limitaciones legales y riesgos de adopción.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MÓDULO III -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>Módulo III: Nociones Jurídicas, Fiscalidad y Principios de Valoración</h2>
+                    <p class="module-purpose">Introducir al participante en los aspectos legales, fiscales y técnicos mínimos necesarios para actuar con responsabilidad en operaciones inmobiliarias, sin sustituir las funciones especializadas de abogados, contadores, tasadores u otros profesionales.</p>
+                </div>
+                <div class="module-body">
+                    <h3>3.1 Marco jurídico inmobiliario básico</h3>
+                    <ul>
+                        <li>Derecho de propiedad y derechos reales.</li>
+                        <li>Registro de la propiedad y seguridad jurídica.</li>
+                        <li>Tradición registral y documentos de titularidad.</li>
+                        <li>Gravámenes y limitaciones al dominio.</li>
+                        <li>Hipotecas, servidumbres y condominios.</li>
+                        <li>Sucesiones y su impacto en inmuebles.</li>
+                        <li>Importancia de verificar la situación legal antes de comercializar.</li>
+                    </ul>
+
+                    <h3>3.2 Contratos inmobiliarios frecuentes</h3>
+                    <ul>
+                        <li>Contrato de compraventa y opción de compraventa.</li>
+                        <li>Arras o reservas.</li>
+                        <li>Contrato de arrendamiento.</li>
+                        <li>Contrato de administración y de corretaje.</li>
+                        <li>Mandatos, autorizaciones y contratos de exclusiva.</li>
+                        <li>Responsabilidades de las partes.</li>
+                    </ul>
+
+                    <h3>3.3 Debido proceso documental</h3>
+                    <ul>
+                        <li>Revisión de propiedad y verificación de identidad del propietario.</li>
+                        <li>Revisión de cargas o gravámenes.</li>
+                        <li>Solvencias, permisos y variables urbanas.</li>
+                        <li>Zonificación y uso permitido del inmueble.</li>
+                        <li>Riesgos de comercializar inmuebles sin documentación suficiente.</li>
+                    </ul>
+
+                    <h3>3.4 Introducción al área fiscal inmobiliaria</h3>
+                    <ul>
+                        <li>Impuestos asociados a la adquisición, tenencia, arrendamiento y venta.</li>
+                        <li>Tributos nacionales y municipales.</li>
+                        <li>Impuesto sobre la renta aplicado a operaciones inmobiliarias.</li>
+                        <li>Ganancia de capital o incremento de valor.</li>
+                        <li>Impuestos municipales sobre inmuebles (IBI y análogos).</li>
+                        <li>Tasas, timbres, registros y costos administrativos.</li>
+                        <li>Importancia de la planificación fiscal lícita.</li>
+                        <li>Rol del contador o asesor tributario.</li>
+                    </ul>
+
+                    <h3>3.5 Principios de valoración inmobiliaria</h3>
+                    <ul>
+                        <li>Diferencia entre precio, costo y valor.</li>
+                        <li>Valor de mercado, valor comercial, valor de reposición y valor de renta.</li>
+                        <li>Principios de oferta, demanda y utilidad.</li>
+                        <li>Principios de sustitución y mayor y mejor uso.</li>
+                        <li>Factores: ubicación, antigüedad, estado de conservación, área, distribución, funcionalidad, accesibilidad y entorno.</li>
+                    </ul>
+
+                    <h3>3.6 Métodos básicos de valoración</h3>
+                    <ul>
+                        <li>Método comparativo de mercado.</li>
+                        <li>Método de costo.</li>
+                        <li>Método de ingresos o capitalización de rentas.</li>
+                        <li>Uso de comparables y ajustes por ubicación, tamaño, edad, estado y amenities.</li>
+                        <li>Introducción al flujo de caja descontado para activos de renta.</li>
+                        <li>Alcances y límites del asesor inmobiliario frente al tasador profesional.</li>
+                    </ul>
+
+                    <h3>3.7 Responsabilidad profesional en la estimación de valor</h3>
+                    <ul>
+                        <li>Diferencia entre opinión de valor y avalúo formal.</li>
+                        <li>Riesgos de sobrevalorar o subvalorar inmuebles.</li>
+                        <li>Comunicación responsable del precio al propietario.</li>
+                        <li>Evidencia y soporte técnico en recomendaciones comerciales.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MÓDULO IV -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>Módulo IV: Criterios ESG, Sostenibilidad y Compliance Inmobiliario</h2>
+                    <p class="module-purpose">Incorporar los criterios ambientales, sociales y de gobernanza como parte de la visión moderna del negocio inmobiliario, junto con principios básicos de cumplimiento normativo y gestión de riesgos.</p>
+                </div>
+                <div class="module-body">
+                    <h3>4.1 Introducción a ESG</h3>
+                    <ul>
+                        <li>Qué significa ESG: Environmental, Social, Governance.</li>
+                        <li>Importancia de ESG en el sector inmobiliario.</li>
+                        <li>Nueva demanda de inversionistas, empresas y usuarios.</li>
+                        <li>Relación entre sostenibilidad, reputación y valor del activo.</li>
+                    </ul>
+
+                    <h3>4.2 Sostenibilidad aplicada a bienes raíces</h3>
+                    <ul>
+                        <li>Eficiencia energética y uso responsable del agua.</li>
+                        <li>Gestión de residuos y materiales sostenibles.</li>
+                        <li>Diseño bioclimático, iluminación y ventilación natural.</li>
+                        <li>Movilidad sostenible y áreas verdes.</li>
+                        <li>Resiliencia ante riesgos climáticos.</li>
+                        <li>Mantenimiento preventivo y vida útil del activo.</li>
+                    </ul>
+
+                    <h3>4.3 Certificaciones verdes y estándares internacionales</h3>
+                    <ul>
+                        <li>Introducción a LEED, BREEAM, EDGE y otros estándares.</li>
+                        <li>Beneficios, costos y desafíos de certificar inmuebles.</li>
+                        <li>Impacto en comercialización, renta y valor de mercado.</li>
+                    </ul>
+
+                    <h3>4.4 ESG e inversión inmobiliaria</h3>
+                    <ul>
+                        <li>Activos sostenibles como ventaja competitiva.</li>
+                        <li>Reducción de costos operativos y atracción de inquilinos corporativos.</li>
+                        <li>Mejor acceso a financiamiento y reputación del desarrollador.</li>
+                        <li>Riesgos de obsolescencia de activos no sostenibles.</li>
+                        <li>Greenwashing: cómo evitar afirmaciones falsas o exageradas.</li>
+                    </ul>
+
+                    <h3>4.5 Compliance inmobiliario</h3>
+                    <ul>
+                        <li>Definición de compliance y cultura de cumplimiento.</li>
+                        <li>Riesgos legales, reputacionales y operativos.</li>
+                        <li>Prevención de fraudes y conflictos de interés.</li>
+                        <li>Relación con terceros, proveedores, aliados y colaboradores.</li>
+                        <li>Políticas internas básicas.</li>
+                    </ul>
+
+                    <h3>4.6 Gestión de riesgos en operaciones inmobiliarias</h3>
+                    <ul>
+                        <li>Identificación de riesgos: documental, fiscal, reputacional, de lavado de dinero, tecnológico, ambiental y de terceros.</li>
+                        <li>Matriz básica de riesgos.</li>
+                        <li>Controles preventivos.</li>
+                    </ul>
+
+                    <h3>4.7 Programa básico de cumplimiento</h3>
+                    <ul>
+                        <li>Código de conducta y procedimientos internos.</li>
+                        <li>Verificación documental y debida diligencia.</li>
+                        <li>Registro y trazabilidad de operaciones.</li>
+                        <li>Reportes internos, capacitación continua y actualización normativa.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MÓDULO V -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>Módulo V: Comercialización y Marca Personal</h2>
+                    <p class="module-purpose">Desarrollar las competencias comerciales del profesional inmobiliario moderno, integrando procesos de captación, promoción, negociación, cierre, servicio postventa y construcción de marca personal como diferenciador competitivo.</p>
+                </div>
+                <div class="module-body">
+                    <h3>5.1 Protocolo de gestión inmobiliaria</h3>
+                    <ul>
+                        <li>Prospección y captación de clientes e inmuebles.</li>
+                        <li>Calificación del propietario, comprador o arrendatario.</li>
+                        <li>Revisión documental inicial y estimación de precio comercial.</li>
+                        <li>Firma de autorización o contrato de intermediación.</li>
+                        <li>Preparación del inmueble, publicación, promoción y gestión de visitas.</li>
+                        <li>Seguimiento, negociación, reserva, cierre y servicio postventa.</li>
+                    </ul>
+
+                    <h3>5.2 Estrategias de comercialización</h3>
+                    <ul>
+                        <li>Venta tradicional y venta consultiva.</li>
+                        <li>Comercialización de proyectos nuevos e inmuebles usados.</li>
+                        <li>Alquiler residencial y comercial.</li>
+                        <li>Marketing de lanzamiento y estrategias de exclusividad.</li>
+                        <li>Campañas digitales, alianzas entre corredores y redes de colaboración.</li>
+                    </ul>
+
+                    <h3>5.3 Marketing inmobiliario</h3>
+                    <ul>
+                        <li>Segmentación del mercado y definición del cliente ideal.</li>
+                        <li>Propuesta de valor del inmueble.</li>
+                        <li>Fotografía profesional, video inmobiliario y copywriting.</li>
+                        <li>Publicaciones en portales, redes sociales, email marketing y WhatsApp Business.</li>
+                        <li>Landing pages, embudos de venta, automatización comercial y CRM.</li>
+                    </ul>
+
+                    <h3>5.4 Marca personal del asesor inmobiliario</h3>
+                    <ul>
+                        <li>Qué es marca personal y diferenciación profesional.</li>
+                        <li>Reputación, credibilidad y confianza.</li>
+                        <li>Especialización por zona o tipo de activo y nicho de mercado.</li>
+                        <li>Presencia digital, contenido educativo, networking, testimonios y referidos.</li>
+                        <li>Coherencia entre imagen, discurso y conducta.</li>
+                    </ul>
+
+                    <h3>5.5 Imagen profesional</h3>
+                    <ul>
+                        <li>Protocolo de vestimenta, presentación personal, modales, cortesía y puntualidad.</li>
+                        <li>Lenguaje verbal y no verbal.</li>
+                        <li>Comunicación efectiva, manejo de objeciones y escucha activa.</li>
+                        <li>Ética en la presentación del inmueble e imagen profesional en entornos digitales.</li>
+                    </ul>
+
+                    <h3>5.6 Negociación inmobiliaria</h3>
+                    <ul>
+                        <li>Preparación de la negociación e identificación de intereses.</li>
+                        <li>Manejo de expectativas y objeciones frecuentes.</li>
+                        <li>Argumentación de valor, negociación de precio, condiciones de pago y plazos.</li>
+                        <li>Manejo de ofertas, cierre efectivo y seguimiento posterior.</li>
+                    </ul>
+
+                    <h3>5.7 Métricas comerciales básicas</h3>
+                    <ul>
+                        <li>Número de captaciones, inventario disponible y leads recibidos.</li>
+                        <li>Tasa de conversión, tiempo promedio de venta y de alquiler.</li>
+                        <li>Costo de adquisición de cliente, visitas realizadas y operaciones cerradas.</li>
+                        <li>Satisfacción del cliente y referidos generados.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MÓDULO VI -->
+            <div class="module-card">
+                <div class="module-header">
+                    <h2>Módulo VI: Ética, Veracidad y Cumplimiento Internacional</h2>
+                    <p class="module-purpose">Formar al participante en los principios éticos que deben regir la actuación inmobiliaria, reforzando la transparencia, la protección al cliente, la confidencialidad, la prevención de fraudes y la prevención de lavado de dinero con enfoque global.</p>
+                </div>
+                <div class="module-body">
+                    <h3>6.1 Ética profesional inmobiliaria</h3>
+                    <ul>
+                        <li>Definición de ética y valores profesionales.</li>
+                        <li>Responsabilidad del asesor inmobiliario.</li>
+                        <li>Conducta frente al público, al cliente, a colegas y al gremio.</li>
+                        <li>Competencia leal y confianza como activo profesional.</li>
+                    </ul>
+
+                    <h3>6.2 Código de ética del profesional inmobiliario</h3>
+                    <ul>
+                        <li>Honestidad, transparencia, diligencia, prudencia y responsabilidad.</li>
+                        <li>Confidencialidad, respeto y actualización profesional.</li>
+                        <li>Prohibición de prometer resultados falsos o garantizados.</li>
+                        <li>Prohibición de manipular u ocultar información relevante.</li>
+                    </ul>
+
+                    <h3>6.3 Veracidad en la comercialización</h3>
+                    <ul>
+                        <li>Publicidad inmobiliaria responsable.</li>
+                        <li>Prohibición de imágenes engañosas o manipulación de características relevantes.</li>
+                        <li>Claridad en precios, condiciones y disponibilidad.</li>
+                        <li>Información verificable.</li>
+                        <li>Manejo responsable de renders, staging virtual y contenido generado con inteligencia artificial.</li>
+                        <li>Diferencia entre mejorar la presentación y tergiversar el inmueble.</li>
+                    </ul>
+
+                    <h3>6.4 Protección al cliente</h3>
+                    <ul>
+                        <li>Prevención de fraudes, abusos e identificación de señales de alerta.</li>
+                        <li>Verificación de identidad y validación de titularidad.</li>
+                        <li>Manejo seguro de documentación y protección de datos personales.</li>
+                        <li>Deber de advertir riesgos conocidos y límites del asesoramiento inmobiliario.</li>
+                    </ul>
+
+                    <h3>6.5 Secreto profesional y confidencialidad</h3>
+                    <ul>
+                        <li>Protección de información del cliente: datos financieros, familiares, personales y de negociación.</li>
+                        <li>Uso adecuado de bases de datos y confidencialidad en operaciones sensibles.</li>
+                        <li>Resguardo digital de la información.</li>
+                    </ul>
+
+                    <h3>6.6 Relación con colegas y gremio</h3>
+                    <ul>
+                        <li>Respeto a la labor de otros profesionales y prohibición de competencia desleal.</li>
+                        <li>Prohibición de captar clientes mediante engaños o descalificar sin fundamento.</li>
+                        <li>Colaboración entre corredores, reglas claras de comisión y respeto a acuerdos de exclusiva.</li>
+                        <li>Conducta en redes y plataformas.</li>
+                    </ul>
+
+                    <h3>6.7 Prevención de lavado de dinero con enfoque internacional</h3>
+                    <ul>
+                        <li>Concepto de lavado de dinero y uso del sector inmobiliario para legitimar capitales.</li>
+                        <li>Señales de alerta: compra mediante terceros, precios inconsistentes, uso excesivo de efectivo, sociedades sin trazabilidad, testaferros y operaciones internacionales de riesgo.</li>
+                        <li>Beneficiario final y origen de fondos.</li>
+                        <li>Personas Expuestas Políticamente (PEP).</li>
+                        <li>Debida diligencia del cliente (KYC) y debida diligencia reforzada (EDD).</li>
+                        <li>Reportes y obligaciones según la jurisdicción.</li>
+                    </ul>
+
+                    <h3>6.8 Cumplimiento internacional</h3>
+                    <ul>
+                        <li>Estándares globales de transparencia.</li>
+                        <li>Recomendaciones del GAFI/FATF.</li>
+                        <li>Prevención de financiamiento del terrorismo.</li>
+                        <li>Sanciones internacionales y operaciones transfronterizas.</li>
+                        <li>Riesgos reputacionales, conservación de registros y cooperación con autoridades competentes.</li>
+                    </ul>
+
+                    <h3>6.9 Casos prácticos de ética y cumplimiento</h3>
+                    <ul>
+                        <li>Cliente que exige ocultar información.</li>
+                        <li>Propiedad con documentos incompletos.</li>
+                        <li>Oferta con fondos de origen dudoso.</li>
+                        <li>Publicidad con imágenes manipuladas.</li>
+                        <li>Conflicto entre colegas por comisión.</li>
+                        <li>Cliente que solicita subvalorar o sobrevalorar un inmueble.</li>
+                        <li>Operación con comprador extranjero o estructura societaria compleja.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ESTRUCTURA FINAL -->
+        <section>
+            <h2>Estructura Final de Módulos</h2>
+            <table>
+                <thead>
+                    <tr><th>Módulo</th><th>Nombre</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>I</td><td>Fundamentos y Clasificación de Activos Inmobiliarios</td></tr>
+                    <tr><td>II</td><td>Dinámicas del Mercado e Inversión Moderna</td></tr>
+                    <tr><td>III</td><td>Nociones Jurídicas, Fiscalidad y Principios de Valoración</td></tr>
+                    <tr><td>IV</td><td>Criterios ESG, Sostenibilidad y Compliance Inmobiliario</td></tr>
+                    <tr><td>V</td><td>Comercialización y Marca Personal</td></tr>
+                    <tr><td>VI</td><td>Ética, Veracidad y Cumplimiento Internacional</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <img class="footer-logo" src="logo-cia.png" alt="Cámara Inmobiliaria de Anzoátegui">
+        <p><strong>Cámara Inmobiliaria de Anzoátegui</strong></p>
+        <p>CIBIR 2.0 – Curso Introductorio a los Bienes Raíces 2.0</p>
+        <p style="margin-top:15px; opacity:0.6; font-size:0.8em;">Documento académico – Noviembre 2026</p>
+    </footer>
+
+</body>
+</html>
